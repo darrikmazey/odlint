@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+$:.unshift(File.expand_path(File.join(Dir.pwd, 'lib')))
+
+require 'odlint'
+
+linter = ODLinter.new(:all)
+#linter.add_rules NoTrailingSpace, MaxLineLength, PreferBracesToDoEnd, EmptyLines, SpacesBeforePostfixConditionals
+
+ARGV.each { |filename|
+  if File.exists?(filename)
+    linter.lint(filename)
+  end
+}
+
+ODLint.report.log_warning_stats
