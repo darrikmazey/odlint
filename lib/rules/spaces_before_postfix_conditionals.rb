@@ -10,7 +10,7 @@ class SpacesBeforePostfixConditionals < LintRule
   end
 
   def matches?(line)
-    /[^ ]+ {1,#{@required_spaces - 1}}\b(if|unless|rescue).*\w+\b/ =~ line or /[^ ]+ {#{@required_spaces + 1},}\b(if|unless|rescue).*\w+\b/ =~ line
+    /^\s*#/ !~ line and /[^ ]+ {1,#{@required_spaces - 1}}\b(if|unless|rescue).*\w+\b/ =~ line or /[^ ]+ {#{@required_spaces + 1},}\b(if|unless|rescue).*\w+\b/ =~ line
   end
   
   def handle_line(line, filename, line_num)

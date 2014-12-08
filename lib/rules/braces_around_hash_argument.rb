@@ -6,7 +6,7 @@ class BracesAroundHashArgument < LintRule
   include Reportable
 
   def matches?(line)
-    /\((.*, *)?\{(\s*.*? ?=> ?.*?\s*,?)\1*}\)/ =~ line
+    /\((.*, *)?\{(\s*.*? ?=> ?.*?\s*,?)\1*}\)/ =~ line and /^\s*#/ !~ line
   end
 
   def handle_line(line, filename, line_num)

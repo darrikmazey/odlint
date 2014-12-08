@@ -13,10 +13,10 @@ class MaxLineLength < LintRule
   end
 
   def handle_line(line, filename, line_num)
-    warn!
+    warn!("longer than #{@max_line_length} characters")
   end
 
   def self.warning
-    "longer than #{@max_line_length} characters"
+    "longer than allowed characters"
   end
 end

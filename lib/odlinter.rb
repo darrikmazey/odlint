@@ -1,3 +1,6 @@
+Dir.glob(File.expand_path(File.join(Dir.pwd, 'lib/rules/*.rb'))).each { |file|
+  require file
+}
 
 class ODLinter
   def self.instance
@@ -8,7 +11,6 @@ class ODLinter
   def initialize(default_rules= nil)
     @rules = []
     @@inst = self
-    load_rules
     if default_rules == :all
       add_rules LintRule.rules
     end
@@ -34,19 +36,12 @@ class ODLinter
     rule_classes = [rule_class].flatten
     rule_classes.each { |rule|
       if rule.is_a?(Class)
-        @rules << rule.new
+        @rules << rule.new  unless ODLint.options.ignored_classes.uniq.include?(rule.to_s)
       else
-        @rules << rule
+        @rules << rule  unless ODLint.options.ignored_classes.uniq.include?(rule.class.to_s)
       end
     }
   end
   alias_method :add_rules, :add_rule
 
-  private
-
-  def load_rules
-    Dir.glob(File.expand_path(File.join(Dir.pwd, 'lib/rules/*.rb'))).each { |file|
-      require file
-    }
-  end
 end
